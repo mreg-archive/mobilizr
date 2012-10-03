@@ -184,7 +184,7 @@ class Mobilizr
     /**
      * Add additional values compiled in template for all targets
      * 
-     * @param array
+     * @param array $vals
      */
     public function addGlobalVals(array $vals)
     {
