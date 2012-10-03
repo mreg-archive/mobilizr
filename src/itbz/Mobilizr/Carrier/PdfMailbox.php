@@ -1,28 +1,17 @@
 <?php
 /**
- * This file is part of Mobilizr.
+ * This file is part of the Mobilizr package
  *
- * Mobilizr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright (c) 2012 Hannes Forsgård
  *
- * Mobilizr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Mobilizr.  If not, see <http://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @author Hannes Forsgård <hannes.forsgard@gmail.com>
- * @copyright Copyright (c) 2011, Hannes Forsgård
- * @license http://www.gnu.org/licenses/ GNU Public License
- *
  * @package Mobilizr
  */
-namespace Mobilizr;
 
+namespace Mobilizr;
 
 /**
  * Mailbox for receiving PDFs.
@@ -33,58 +22,63 @@ namespace Mobilizr;
  *
  * NOTE: The PhPdf parent directory must be in the include path.
  *
- * @uses \PhPdf\Merger
  * @package Mobilizr
+ * 
+ * @todo PdfMerger should be injected as a dependency
  */
 class Carrier_PdfMailbox implements \Iterator, Carrier_Basic
 {
-
     /**
      * Internal mailbox representation
-     * @var array $box
+     * 
+     * @var array
      */
     private $box = array();
 
-
     /**
-     * Send a message.
+     * Send a message
+     * 
      * @param string $pdf
      * @param string $address Not used
+     * 
      * @return void
      */
-    public function send($pdf, $address=''){
+    public function send($pdf, $address = '')
+    {
         assert('is_string($pdf)');
         $this->box[] = $pdf;
     }
 
-
     /**
      * TRUE if mailbox contains mail, FALSE otherwise
+     * 
      * @return bool
      */
-    public function hasMail(){
+    public function hasMail()
+    {
         return !empty($this->box);
     }
 
-
     /**
      * Fetch one mail
+     * 
      * @return mixed
      */
-    public function fetch(){
+    public function fetch()
+    {
         return array_pop($this->box);
     }
 
-
     /**
      * Fetch all mails in mailbox, concatenated.
-     * @uses \PhPdf\Merger
+     * 
      * @return string The PDF in a binary string
      */
-    public function fetchAll(){
+    public function fetchAll()
+    {
         $merger = new \PhPdf\Merger();
 
-        foreach ( $this->box as $mail ) {
+        foreach ($this->box as $mail) {
             $merger->add($mail);
         }
 
@@ -92,49 +86,53 @@ class Carrier_PdfMailbox implements \Iterator, Carrier_Basic
         return $merger->get();
     }
 
-
     /**
      * Iterator interface
+     * 
      * @return void
      */
-    function rewind() {
+    public function rewind()
+    {
         reset($this->box);
     }
 
-
     /**
      * Iterator interface
+     * 
      * @return mixed
      */
-    function current() {
+    public function current()
+    {
         return current($this->box);
     }
 
-
     /**
      * Iterator interface
+     * 
      * @return int
      */
-    function key() {
+    public function key()
+    {
         return key($this->box);
     }
 
-
     /**
      * Iterator interface
+     * 
      * @return void
      */
-    function next() {
+    public function next()
+    {
         next($this->box);
     }
 
-
     /**
      * Iterator interface
+     * 
      * @return bool
      */
-    function valid() {
+    public function valid()
+    {
         return !!current($this->box);
     }
-
 }

@@ -1,62 +1,56 @@
 <?php
 /**
- * This file is part of Mobilizr.
+ * This file is part of the Mobilizr package
  *
- * Mobilizr is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright (c) 2012 Hannes Forsgård
  *
- * Mobilizr is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Mobilizr.  If not, see <http://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @author Hannes Forsgård <hannes.forsgard@gmail.com>
- * @copyright Copyright (c) 2011, Hannes Forsgård
- * @license http://www.gnu.org/licenses/ GNU Public License
- *
  * @package Mobilizr
  */
-namespace Mobilizr;
 
+namespace Mobilizr;
 
 /**
  * Generic Mobilizr exception
+ * 
  * @package Mobilizr
  */
 class Exception extends \Exception
 {
-
     /**
      * Errors array
-     * @var array $errors
+     *
+     * @var array
      */
     private $errors;
 
-
     /**
-     * Construct and set errors
+     * Generic Mobilizr exception
+     * 
      * @param string $message
      * @param array $errors
      */
-    public function __construct($message, array $errors=null){
+    public function __construct($message, array $errors = null)
+    {
         assert('is_string($message)');
-        if ( is_null($errors) ) $errors = array();
+        if (is_null($errors)) {
+            $errors = array();
+        }
         $this->errors = $errors;
+
         return parent::__construct($message);
     }
 
-
     /**
      * Get array of strings describing errors
+     * 
      * @return array
      */
-    public function getErrors(){
+    public function getErrors()
+    {
         return $this->errors;
     }
-
 }

@@ -1,30 +1,38 @@
 <?php
 /**
- * This file is part of Mreg
+ * This file is part of the Mobilizr package
+ *
+ * Copyright (c) 2012 Hannes Forsgård
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  * @author Hannes Forsgård <hannes.forsgard@gmail.com>
- * @copyright Copyright (c) 2011, Hannes Forsgård
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @package Mreg
+ * @package Mobilizr
  */
+
 namespace Mreg;
 
-
 /**
+ * Legacy code from mreg....
+ * 
+ * 
  * TwigTemplates are used when generation mails and pdfs for reports and
  * communications. Implements \Mobilizr\Template for this reason. Extends
  * MregEditable to be online editable. Templates are executed in a sandbox
  * for enhanced security. Se the twig website for syntax descriptions.
+ * 
  * @uses Twig
  * @package Mreg
  */
-class TwigTemplate extends MregEditable implements \Mobilizr\Template {
-
-
+class TwigTemplate extends MregEditable implements \Mobilizr\Template
+{
     /**
      * Construct
      * @param string $table Name of db table
      */
-    public function __construct($table = 'Template'){
+    public function __construct($table = 'Template')
+    {
         parent::__construct($table, 'name');
         $this->setAccess('root', 'root', 0777);
     }
@@ -33,7 +41,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * Get title of collection
      * @return string
      */
-    protected function getCollectionTitle(){
+    protected function getCollectionTitle()
+    {
         return 'Mallar';
     }
 
@@ -42,7 +51,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * Url to collection
      * @return string
      */
-    protected function getBaseUrl(){
+    protected function getBaseUrl()
+    {
         return $this->getServiceUrl()."templates";
     }
 
@@ -52,7 +62,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * @uses \Active_Field_String
      * @return int Number of affected rows
      */
-    public function insert(){
+    public function insert()
+    {
         assert('isset($this->headline)');
         if ( !isset($this->name) ) {
             $headline = new \Active_Field_String($this->headline);
@@ -76,7 +87,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * @todo Ska använda DI istället!!
      * @return Twig_Environment
      */
-    private static function getTwig(){
+    private static function getTwig()
+    {
         if ( !isset(self::$twig) ) {
             if ( !defined('TWIG_CACHE_DIR') ) {
                 throw new \RuntimeException('Define TWIG_CACHE_DIR to enable template caching.');
@@ -88,9 +100,12 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
             //Load templates from string
             $loader = new \Twig_Loader_String();
 
-            self::$twig = new \Twig_Environment($loader, array(
-                'cache' => TWIG_CACHE_DIR,
-            ));
+            self::$twig = new \Twig_Environment(
+                $loader,
+                array(
+                    'cache' => TWIG_CACHE_DIR,
+                )
+            );
 
             //Turn on auto escaping
             $escaper = new \Twig_Extension_Escaper(true);
@@ -126,7 +141,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * @param array $values
      * @return string
      */
-    public function doCompile(array $values){
+    public function doCompile(array $values)
+    {
         assert('is_string($this->tmpl) /* template loaded? */');
         $twig = self::getTwig();
         return $twig->render($this->tmpl, $values);
@@ -137,7 +153,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * Return template title
      * @return string
      */
-    public function getTmplTitle(){
+    public function getTmplTitle()
+    {
         assert('isset($this->headline) /* Template loaded? */');
         return $this->headline;
     }
@@ -147,7 +164,8 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
      * Validate syntax of loaded template
      * @return bool TRUE if syntax is valid, FALSE otherwise
      */
-    public function isValid(){
+    public function isValid()
+    {
         assert('is_string($this->tmpl) /* template loaded? */');
         $twig = self::getTwig();
         try {
@@ -157,5 +175,4 @@ class TwigTemplate extends MregEditable implements \Mobilizr\Template {
             return false;
         }
     }
-
 }
