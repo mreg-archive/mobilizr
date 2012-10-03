@@ -51,6 +51,7 @@
             <fileset refid="filesetSource"/>
             <fileset refid="filesetTests"/>
             <formatter type="full" outfile="${BUILD_DIR}/phpcs/sniff.txt"/>
+            <formatter type="summary" outfile="${BUILD_DIR}/phpcs/sniff-summary.txt"/>
             <formatter type="summary" usefile="false"/>
         </phpcodesniffer>
     </target>
@@ -96,7 +97,7 @@
         <mkdir dir="${BUILD_DIR}"/>
         <mkdir dir="${BUILD_DIR}/phpcs"/>
         <mkdir dir="${BUILD_DIR}/pdepend"/>
-    </target>
+     </target>
 
     <target name="update" depends="install">
         <echo msg="Updating composer.phar..."/>

@@ -4,8 +4,11 @@
 <title>Build: Mobilizr</title>
 <style>
     iframe {
-        width: 49%;
+        width: 45%;
         height: 300px;
+    }
+    iframe.wide {
+        width: 54%;
     }
     ol {
         float: right;
@@ -31,12 +34,12 @@
 </ol>
 
 <div>
-    <iframe src="phpcs/sniff.txt"></iframe>
+    <iframe class="wide" src="phpcs/sniff-summary.txt"></iframe>
     <iframe src="phpcpd.txt"></iframe>
 </div>
 
 <div>
-    <iframe src="phpmd.html"></iframe>
+    <iframe class="wide" src="phpmd.html"></iframe>
     <iframe src="test-coverage.txt"></iframe>
 </div>
 
